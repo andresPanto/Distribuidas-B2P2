@@ -3,7 +3,7 @@ from socketserver import ThreadingMixIn
 from xmlrpc.client import ServerProxy
 
 class RPC(ThreadingMixIn, SimpleXMLRPCServer):
-    HOST = '192.168.43.64' 
+    HOST = 'localhost' 
     PORT = 2527
     ADDRESS = (HOST, PORT)
     servidor = None

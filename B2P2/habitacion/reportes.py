@@ -4,12 +4,12 @@ class Reporte:
     nombre_de_archivo = None
     data = None
     datos_habitacion = None
-    def __init__(self, nombre_de_archivo, datos_habitacion, informacion)
+    def __init__(self, nombre_de_archivo, datos_habitacion, informacion):
         self.nombre_de_archivo = nombre_de_archivo
         self.datos_habitacion = datos_habitacion
         self.data = informacion
 
-    def generar_reporte:
+    def generar_reporte(self):
         fechas = []
         pulsaciones = []
         porcentajes_suero = []

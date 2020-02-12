@@ -11,29 +11,33 @@ class Paciente:
     datos_habitacion = None
     instancia_servidor = None
     nombre_archivo = None
-    HOST = '192.168.43.64'
-    PORT = '2527'
-    LINK = None
+    HOST = '172.29.64.148'
+    PORT = '2525'
+    LINK = 'http://192.168.13.13:2525'
+    enviando_datos = False
 
     def __init__(self, id, nombre, apellido, correo):
-        self.LINK = 'http://' + self.HOST + ':' + self.PORT
+        #self.LINK = 'http://' + self.HOST + ':' + self.PORT
+        print('Constructor')
         self.instancia_servidor = xmlrpc.client.ServerProxy(
-            self.LINK)
+            'http://192.168.43.13:2526')
         self.datos_habitacion = {
             "id": id,
             "nombre": nombre,
             "apellido": apellido,
-            "correoElectronico": correo
+            "correoElectronico": correo,
             "fechaIngreso": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         self.iniciar_conexion()
         
 
     def iniciar_conexion(self):
+        print('Inicia conexion')
         self.instancia_servidor.acepta_conexion(self.datos_habitacion)
 
     def enviar_datos(self):
         # self.iniciar_conexion()
+    
         cont = 0
         datos_medicos = {
             "suero": random(),
@@ -51,13 +55,19 @@ class Paciente:
         
         fecha_ingreso_para_nombre_archivo = self.datos_habitacion["fechaIngreso"].replace(':','_')
         self.nombre_archivo = 'Reporte_' + self.datos_habitacion["nombre"] + '_' + self.datos_habitacion["apellido"] + '_' + str(self.datos_habitacion["id"]) + fecha_ingreso_para_nombre_archivo + ".xlsx"
+        print(self.nombre_archivo)
+        '''
         respuesta_reporte = Reporte(self.nombre_archivo, self.datos_habitacion, informacion)
         mail = Email(self.datos_habitacion["correoElectronico"], self.nombre_archivo).enviar_email()
         if mail == 0:
             tkinter.messagebox.showerror("Correo Electrónico", "Error al envíar el correo electrónico")
-        subida_de_archivos = SubirArchivos(sel.nombre_archivo).subir_archivo()
+        subida_de_archivos = SubirArchivos(self.nombre_archivo, self.datos_habitacion, informacion).subir_archivo()
         if subida_de_archivos == 0:
             tkinter.messagebox.showerror("Google Drive", "Error al subir archivo a Google Drive")
+        '''
 
         
 
+if __name__=="__main__":
+    print('antes paciente')
+    Paciente(1, "nombre", "apellido", "andres.pantoja@epn.edu.ec").enviar_datos()
