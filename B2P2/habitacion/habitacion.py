@@ -37,19 +37,21 @@ class Paciente:
 
     def enviar_datos(self):
         # self.iniciar_conexion()
-    
-        cont = 0
-        datos_medicos = {
-            "suero": random(),
-            "pulsaciones": randint(1, 100),
-            "fecha": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        }
-        self.instancia_servidor.maneja_datos(
-            datos_medicos, self.datos_habitacion)
-        time.sleep(1)
-        cont = cont + 1
+        self.enviando_datos = True
+        while self.enviando_datos:
+            cont = 0
+            datos_medicos = {
+                "suero": random(),
+                "pulsaciones": randint(1, 100),
+                "fecha": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            }
+            self.instancia_servidor.maneja_datos(
+                datos_medicos, self.datos_habitacion)
+            time.sleep(1)
+            cont = cont + 1
 
     def parar_conexion(self):
+        self.enviando_datos = False
         informacion = self.instancia_servidor.cierra_conexion(
             self.datos_habitacion)
         

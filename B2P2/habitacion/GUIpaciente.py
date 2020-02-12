@@ -30,7 +30,7 @@ class GUICliente:
     creado = 0
     botonIniciar = None
     botonFinalizar = None
-    queue = None
+    queue =  Queue()
     path_imagen_quiq = '/home/andres/Desktop/EPN/DISTRIBUIDAS/Distribuidas-B2P2/doctor/imagenes_interfaz/logo2.png'
     path_imagen_hospital = '/home/andres/Desktop/EPN/DISTRIBUIDAS/Distribuidas-B2P2/doctor/imagenes_interfaz/hospitalV.png'
 
@@ -41,6 +41,7 @@ class GUICliente:
         self.raiz=Tk()
         self.raiz.title('PACIENTE')
         self.raiz.resizable(0,0)
+        self.raiz.geometry('650x350')
 
         framePrincipal=Frame(self.raiz, width=480,height=520)
         self.raiz.config(width=480, height=320)
@@ -50,7 +51,7 @@ class GUICliente:
         framePrincipal.config(bd=25)
 
 
-        frameEncabezado=Frame(framePrincipal, width=480, height=10)
+        frameEncabezado=Frame(framePrincipal, width=480, height=100)
         frameEncabezado.pack(fill="x", expand=1)
 
         frameEncabezado.config(bg="white")
@@ -67,7 +68,7 @@ class GUICliente:
         frameDatos.rowconfigure(0,weight=1)
         frameDatos.columnconfigure(0,weight=1)
 
-        frameBotones=Frame(framePrincipal, width=480, height=30)
+        frameBotones=Frame(framePrincipal, width=480, height=100)
         frameBotones.pack()
         frameBotones.config(bg="lightgrey")
         frameBotones.pack(fill="both", expand=1)
@@ -101,27 +102,28 @@ class GUICliente:
         Label(frameDatos, text="CORREO").grid(
         row=3, column=0, sticky=(N, S, W, E))
 
-        self.txtNombre = Text(frameDatos, width=30, height=3)
+        self.txtNombre = Entry(frameDatos, font=(28))
         self.txtNombre.grid(row=0, column=1, sticky=(N,W,S,E))
 
-        self.txtApellido = Text(frameDatos, width=30, height=3)
+        self.txtApellido = Entry(frameDatos, font=(28))
         self.txtApellido.grid(row=1, column=1, sticky=(N, W, S, E))
 
-        self.txtHabitacion = Text(frameDatos, width=30, height=3)
+        self.txtHabitacion = Entry(frameDatos, font=(28))
         self.txtHabitacion.grid(row=2, column=1, sticky=(N,  W, S, E))
 
-        self.txtCorreo = Text(frameDatos, width=30, height=3)
+        self.txtCorreo = Entry(frameDatos, font=(28))
         self.txtCorreo.grid(row=3, column=1, sticky=(N,  W, S, E))
         self.raiz.after(500, self.process_queue)
+        self.raiz.mainloop()
         
 
     def enviar(self):
         
         
-        self.id_habitacion = int(self.txtHabitacion.get('1.0', END))
-        self.nombre_paciente = self.txtNombre.get('1.0', END)
-        self.apellido_paciente = self.txtApellido.get('1.0', END)
-        self.correo_paciente = self.txtCorreo.get('1.0', END)
+        self.id_habitacion = int(self.txtHabitacion.get())
+        self.nombre_paciente = self.txtNombre.get()
+        self.apellido_paciente = self.txtApellido.get()
+        self.correo_paciente = self.txtCorreo.get()
         self.paciente = Paciente(self.id_habitacion, self.nombre_paciente, self.apellido_paciente, self.correo_paciente)
         self.botonIniciar.config(state=DISABLED)
         self.txtNombre.config(state=DISABLED)
@@ -131,7 +133,7 @@ class GUICliente:
         self.botonFinalizar.config(state = NORMAL)
         self.creado = 1
         
-        self.queue = Queue()
+        
         ThreadedTask(self.queue, self.paciente).start()
         self.raiz.after(500, self.process_queue)
         
@@ -168,8 +170,8 @@ class GUICliente:
             msg = self.queue.get(0)
             # Show result of the task if needed
             #self.prog_bar.stop()
-        except Queue.Empty:
-            self.master.after(100, self.process_queue)
+        except Empty:
+            self.raiz.after(100, self.process_queue)
 
 
 
@@ -180,7 +182,7 @@ class ThreadedTask(threading.Thread):
         self.queue = queue
         self.paciente = paciente
     def run(self):
-        self.paciente.parar_conexion()
+        self.paciente.enviar_datos()
         self.queue.put("Task finished")
 
 if __name__=="__main__":
