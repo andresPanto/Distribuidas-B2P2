@@ -43,14 +43,14 @@ class RPC(ThreadingMixIn, SimpleXMLRPCServer):
         if suero_alarmante:
             print("suero: " + str(datos_medicos["suero"] * 100) + '%')
             print('Envíar a enfermera')
-            with ServerProxy('http://192.168.43.199:2525') as server_suero:
-                server_suero.alerta_suero(datos_medicos, datos_habitacion)
+            #with ServerProxy('http://192.168.43.199:2525') as server_suero:
+            #   server_suero.alerta_suero(datos_medicos, datos_habitacion)
             
         if pulsaciones_alarmantes:
             print("Pulsaciones alarmantes: " + str(datos_medicos["pulsaciones"]) + ' ppm')
             print('Envíar a doctor')
-            with ServerProxy('http://192.168.43.25:2525') as server_suero:
-                server_suero.alerta_pulsaciones(datos_medicos, datos_habitacion)
+            #with ServerProxy('http://192.168.43.25:2525') as server_suero:
+            #    server_suero.alerta_pulsaciones(datos_medicos, datos_habitacion)
             
         # Lógica de la conexión al otro server    
 

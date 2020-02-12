@@ -5,8 +5,9 @@ from random import *
 from reportes import Reporte
 from correo_electronico import Email
 from subir_archivos import SubirArchivos
+from tkinter import messagebox
 
-class Habitacion:
+class Paciente:
     datos_habitacion = None
     instancia_servidor = None
     nombre_archivo = None
@@ -26,6 +27,7 @@ class Habitacion:
             "fechaIngreso": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         self.iniciar_conexion()
+        
 
     def iniciar_conexion(self):
         self.instancia_servidor.acepta_conexion(self.datos_habitacion)
@@ -42,22 +44,20 @@ class Habitacion:
             datos_medicos, self.datos_habitacion)
         time.sleep(1)
         cont = cont + 1
-        #print("Datos enviados...")
-        #print("Termina de enviar datos")
 
     def parar_conexion(self):
-        #print("Termina de enviar datos")
-        #informacion_binaria = self.instancia_servidor.cierra_conexion*(self.datos_habitacion)
         informacion = self.instancia_servidor.cierra_conexion(
             self.datos_habitacion)
-        #print(informacion)
-        #print(type(informacion))
         
         fecha_ingreso_para_nombre_archivo = self.datos_habitacion["fechaIngreso"].replace(':','_')
         self.nombre_archivo = 'Reporte_' + self.datos_habitacion["nombre"] + '_' + self.datos_habitacion["apellido"] + '_' + str(self.datos_habitacion["id"]) + fecha_ingreso_para_nombre_archivo + ".xlsx"
         respuesta_reporte = Reporte(self.nombre_archivo, self.datos_habitacion, informacion)
         mail = Email(self.datos_habitacion["correoElectronico"], self.nombre_archivo).enviar_email()
+        if mail == 0:
+            tkinter.messagebox.showerror("Correo Electrónico", "Error al envíar el correo electrónico")
         subida_de_archivos = SubirArchivos(sel.nombre_archivo).subir_archivo()
+        if subida_de_archivos == 0:
+            tkinter.messagebox.showerror("Google Drive", "Error al subir archivo a Google Drive")
 
         
 
