@@ -2,13 +2,18 @@ import cv2
 import numpy as np
 import face_recognition
 
-cam = cv2.VideoCapture(0)
+class Reconocimiento:
+    
 
-cv2.namedWindow("test")
+    cam = cv2.VideoCapture(0)
 
-img_counter = 10
+    cv2.namedWindow("Reconocimiento Facial")
 
-while True:
+    nombre_imagen = None
+
+    def mostar_pantalla
+
+    while True:
     ret, frame = cam.read()
     cv2.imshow("test", frame)
     if not ret:
@@ -36,6 +41,6 @@ while True:
 
         img_counter += 1
 
-cam.release()
+    cam.release()
 
-cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
