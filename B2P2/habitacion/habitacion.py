@@ -56,17 +56,17 @@ class Paciente:
             self.datos_habitacion)
         
         fecha_ingreso_para_nombre_archivo = self.datos_habitacion["fechaIngreso"].replace(':','_')
-        self.nombre_archivo = 'Reporte_' + self.datos_habitacion["nombre"] + '_' + self.datos_habitacion["apellido"] + '_' + str(self.datos_habitacion["id"]) + fecha_ingreso_para_nombre_archivo + ".xlsx"
-        print(self.nombre_archivo)
-        '''
-        respuesta_reporte = Reporte(self.nombre_archivo, self.datos_habitacion, informacion)
+        self.nombre_archivo = 'Reporte_' + self.datos_habitacion["nombre"] + '_' + self.datos_habitacion["apellido"] + '_' + str(self.datos_habitacion["id"]) + '_' + fecha_ingreso_para_nombre_archivo + ".xlsx"
+        
+        
+        respuesta_reporte = Reporte(self.nombre_archivo, self.datos_habitacion, informacion).generar_reporte()
         mail = Email(self.datos_habitacion["correoElectronico"], self.nombre_archivo).enviar_email()
         if mail == 0:
-            tkinter.messagebox.showerror("Correo Electrónico", "Error al envíar el correo electrónico")
-        subida_de_archivos = SubirArchivos(self.nombre_archivo, self.datos_habitacion, informacion).subir_archivo()
+            messagebox.showerror("Correo Electrónico", "Error al envíar el correo electrónico")
+        subida_de_archivos = SubirArchivos(self.nombre_archivo, 'Reportes').subir_archivo()
         if subida_de_archivos == 0:
-            tkinter.messagebox.showerror("Google Drive", "Error al subir archivo a Google Drive")
-        '''
+            messagebox.showerror("Google Drive", "Error al subir archivo a Google Drive")
+        
 
         
 

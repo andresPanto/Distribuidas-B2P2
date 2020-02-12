@@ -1,13 +1,15 @@
 import xlsxwriter
 
+
 class Reporte:
     nombre_de_archivo = None
     data = None
     datos_habitacion = None
+    path_logo_quiq = './imagenes_interfaz/logoBase.png' 
     def __init__(self, nombre_de_archivo, datos_habitacion, informacion):
         self.nombre_de_archivo = nombre_de_archivo
         self.datos_habitacion = datos_habitacion
-        self.data = informacion
+        self.data = informacion.data.decode('utf-8')
 
     def generar_reporte(self):
         fechas = []
@@ -20,27 +22,33 @@ class Reporte:
             pulsaciones.append(int(tokens[3]))
             porcentajes_suero.append(float(tokens[6][:-1]))
 
-        workbook = xlsxwriter.Workbook(self.nombre_archivo)
+        workbook = xlsxwriter.Workbook(self.nombre_de_archivo)
         worksheet = workbook.add_worksheet()
-        worksheet.write('A1', 'Habitacion')
-        worksheet.write('A2', 'Paciente')
-        worksheet.write('A3', 'Fecha / hora de ingreso')
-        worksheet.write('B1', self.datos_habitacion['id'])
+        #Insertar imagen
+        worksheet.insert_image('A1', self.path_logo_quiq, {'x_scale': 0.75, 'y_scale': 0.75})
+        #worksheet.insert_image('A1', 'logo.png', {'x_offset': 15, 'y_offset': 10})
+        #worksheet.insert_image('A1', 'logo.png')
+
+
+        worksheet.write('A11', 'Habitacion')
+        worksheet.write('A12', 'Paciente')
+        worksheet.write('A13', 'Fecha / hora de ingreso')
+        worksheet.write('B11', self.datos_habitacion['id'])
         worksheet.write(
-            'B2', self.datos_habitacion['nombre'] + ' ' + self.datos_habitacion['apellido'])
-        worksheet.write('B3', self.datos_habitacion['fechaIngreso'])
-        worksheet.write('A5', 'Datos Medicos')
-        worksheet.write('A6', 'Fecha y Hora')
-        worksheet.write('B6', 'Pulsaciones (ppm)')
-        worksheet.write('C6', 'Porcentaje de suero (%)')
-        worksheet.write_column('A7', fechas)
-        worksheet.write_column('B7', pulsaciones)
-        worksheet.write_column('C7', porcentajes_suero)
+            'B12', self.datos_habitacion['nombre'] + ' ' + self.datos_habitacion['apellido'])
+        worksheet.write('B14', self.datos_habitacion['fechaIngreso'])
+        worksheet.write('A15', 'Datos Medicos')
+        worksheet.write('A16', 'Fecha y Hora')
+        worksheet.write('B16', 'Pulsaciones (ppm)')
+        worksheet.write('C16', 'Porcentaje de suero (%)')
+        worksheet.write_column('A17', fechas)
+        worksheet.write_column('B17', pulsaciones)
+        worksheet.write_column('C17', porcentajes_suero)
 
         chart = workbook.add_chart({'type': 'line'})
         chart.add_series({
-            'values': '=Sheet1!$B$7:$B${}'.format(len(pulsaciones) + 6),
-            'categories': '=Sheet1!$A$7:$A${}'.format(len(pulsaciones) + 6),
+            'values': '=Sheet1!$B$17:$B${}'.format(len(pulsaciones) + 6),
+            'categories': '=Sheet1!$A$17:$A${}'.format(len(pulsaciones) + 6),
             'name': 'Pulsaciones',
             'marker': {
                 'type': 'square',
@@ -50,13 +58,13 @@ class Reporte:
             }
         })
 
-        worksheet.insert_chart('F3', chart)
+        worksheet.insert_chart('F8', chart)
 
         # grafico del % de suero
         chart_suero = workbook.add_chart({'type': 'line'})
         chart_suero.add_series({
-            'values': '=Sheet1!$C$7:$C${}'.format(len(porcentajes_suero) + 6),
-            'categories': '=Sheet1!$A$7:$A${}'.format(len(porcentajes_suero) + 6),
+            'values': '=Sheet1!$C$17:$C${}'.format(len(porcentajes_suero) + 6),
+            'categories': '=Sheet1!$A$17:$A${}'.format(len(porcentajes_suero) + 6),
             'name': 'Porcentajes de Sueros',
             'marker': {
                 'type': 'square',
@@ -65,5 +73,5 @@ class Reporte:
                         'fill':   {'color': 'black'},
             }
         })
-        worksheet.insert_chart('F19', chart_suero)
+        worksheet.insert_chart('F29', chart_suero)
         workbook.close()

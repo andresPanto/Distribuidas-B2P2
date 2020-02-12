@@ -35,31 +35,29 @@ class Email():
         self.mensaje['Subject'] = 'Envío email'
         self.mensaje.attach(MIMEText(contenido))
 
-        try:
+        
 
-            with open(self.nombre_archivo_enviar, "rb") as file:
-                        parte_archivo = MIMEApplication(
-                            file.read(),
-                            Name=basename(self.nombre_archivo_enviar)
-                        )
-            
-            parte_archivo['Content-Disposition'] = 'attachment; filename="%s"' % basename(self.nombre_archivo_enviar)
-            self.mensaje.attach(parte_archivo)
-        except:
-            return 0
-
+        with open(self.nombre_archivo_enviar, "rb") as file:
+                    parte_archivo = MIMEApplication(
+                        file.read(),
+                        Name=basename(self.nombre_archivo_enviar)
+                    )
+        
+        parte_archivo['Content-Disposition'] = 'attachment; filename="%s"' % basename(self.nombre_archivo_enviar)
+        self.mensaje.attach(parte_archivo)
+    
 
 
-        try:    
 
-            if self.puerto_smtp == '465':
-                self.servidor = smtplib.SMTP_SSL('{}:{}'.format(self.nombre_servidor_smtp, self.puerto_smtp))
-            else :
-                self.servidor = smtplib.SMTP('{}:{}'.format(self.nombre_servidor_smtp, self.puerto_smtp))
-                self.servidor.starttls() # Para seguridad
-            self.servidor.login(self.correo_fuente, self.password)
-            self.servidor.send_message(self.mensaje)
-            self.servidor.quit()
-            return 1
-        except:
-            return 0
+    
+
+        if self.puerto_smtp == '465':
+            self.servidor = smtplib.SMTP_SSL('{}:{}'.format(self.nombre_servidor_smtp, self.puerto_smtp))
+        else :
+            self.servidor = smtplib.SMTP('{}:{}'.format(self.nombre_servidor_smtp, self.puerto_smtp))
+            self.servidor.starttls() # Para seguridad
+        self.servidor.login(self.correo_fuente, self.password)
+        self.servidor.send_message(self.mensaje)
+        self.servidor.quit()
+        return 1
+    
