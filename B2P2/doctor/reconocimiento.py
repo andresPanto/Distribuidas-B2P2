@@ -11,10 +11,12 @@ class ReconocimientoFacial:
     nombres_conocidos = None
     nombre_encontrado = 'Desconocido'
     fichero = './imagenes/'
+    path_out = './datos_reconocimiento/out.txt'
+    path_nombres = './datos_reconocimiento/nombres.txt'
     def __init__(self):
         self.pantalla_captura = cv2.VideoCapture(0)
-        self.caras_conocidas = np.loadtxt('out.txt')
-        with open('nombres.txt', 'r') as archivo:
+        self.caras_conocidas = np.loadtxt(self.path_out)
+        with open(self.path_nombres, 'r') as archivo:
             self.nombres_conocidos = archivo.read().splitlines()
         
         

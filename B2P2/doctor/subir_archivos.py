@@ -4,7 +4,7 @@ import os
 
 
 class SubirArchivos:
-    nombre_archivo_credenciales = 'CredencialesQuiq.txt'
+    nombre_archivo_credenciales = '/home/andres/Desktop/EPN/DISTRIBUIDAS/Distribuidas-B2P2/B2P2/CredencialesQuiq.txt'
     nombre_archivo_a_subir = None
     google_auth = GoogleAuth()
     nombre_carpeta_g_drive = None
@@ -16,6 +16,7 @@ class SubirArchivos:
     def subir_archivo(self):
         # Cargar credenciales cargadas previamente
         self.google_auth.LoadCredentialsFile(self.nombre_archivo_credenciales)
+        print(self.google_auth.credentials)
         if self.google_auth.credentials is None:
             self.google_auth.GetFlow()
             self.google_auth.flow.params.update({'access_type': 'offline'})
@@ -47,6 +48,6 @@ class SubirArchivos:
                     })
                 archivo_de_drive.SetContentFile(self.nombre_archivo_a_subir)
                 archivo_de_drive.Upload()
-                sesion_google_drive.CreateFile({'id':archivo_de_drive['id']}).GetContentFile(self.nombre_archivo_credenciales)
+                sesion_google_drive.CreateFile({'id':archivo_de_drive['id']}).GetContentFile('eng-dl.txt')
         
         

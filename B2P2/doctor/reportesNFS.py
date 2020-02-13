@@ -4,8 +4,8 @@ import subprocess
 from functools import partial
 
 def boton(self):
-    entrada = '/mnt/sharedfolder/'+self
-    subprocess.call(['libreoffice6.3','--calc',entrada])
+    entrada = './habitacion_juan/'+self
+    subprocess.call(['libreoffice','--calc',entrada])
 
 
 def generarInterfaz():
@@ -42,7 +42,7 @@ def generarInterfaz():
     #Label(frameEncabezado, image=imagenLogoHospital).grid(padx=50, row=0, column=2)
     btnReportes=Button(frameBotones, text="SALIR", command=interfazReporte.destroy)
     btnReportes.pack(fill="both", expand=1)
-    lista = os.listdir("/mnt/sharedfolder")
+    lista = os.listdir("./habitacion_juan")
     for i in lista:
         Button(frameDatos, text=i, command=  partial(boton,i) ).pack(fill="both", expand=1)
     interfazReporte.mainloop()
