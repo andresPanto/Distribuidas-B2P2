@@ -6,6 +6,7 @@ from reconocimiento import ReconocimientoFacial
 from functools import partial
 from reportesNFS import *
 from subir_archivos import SubirArchivos
+from PIL import ImageTk, Image
 
 
 textSuero = None
@@ -68,8 +69,8 @@ class SalaDoctores():
 
 
 class Medico:
-  path_imagen_quiq = '/home/andres/Desktop/EPN/DISTRIBUIDAS/Distribuidas-B2P2/doctor/imagenes_interfaz/logo2.png'
-  path_imagen_hospital = '/home/andres/Desktop/EPN/DISTRIBUIDAS/Distribuidas-B2P2/doctor/imagenes_interfaz/hospitalV.png'
+  path_imagen_quiq = '/home/andres/Desktop/EPN/DISTRIBUIDAS/Distribuidas-B2P2/B2P2/doctor/imagenes_interfaz/logoBase.png'
+  path_imagen_hospital = '/home/andres/Desktop/EPN/DISTRIBUIDAS/Distribuidas-B2P2/B2P2/doctor/imagenes_interfaz/lorem.jpg'
   def __init__(self):
     self.guardiaMedica()
 
@@ -105,14 +106,14 @@ class Medico:
     frameBotones.pack()
     frameBotones.config(bg="red")
     frameBotones.pack(fill="x", expand=1)
-    imagenLogoHospital= PhotoImage(file=self.path_imagen_hospital)
-    imagenLogo= PhotoImage(file=self.path_imagen_quiq)
-    labelLogo= Label(frameEncabezado, image=imagenLogo).grid(pady=5, padx=50,row=0, column=0, sticky=N+S+E+W)
+    imagenLogoHospital= ImageTk.PhotoImage(Image.open(self.path_imagen_hospital).resize((120,120)))
+    imagenLogo= ImageTk.PhotoImage(Image.open(self.path_imagen_quiq).resize((120,120)))
+    labelLogo= Label(frameEncabezado, image=imagenLogo, background = "white").grid(pady=5, padx=50,row=0, column=0)
     titulo=Label(frameEncabezado, text="GUARDIA MÉDICA")
     titulo.config(fg="blue",bg="white",font=("Verdana",22)) 
     titulo.grid(row=0, column=1, sticky=N+S+E+W)
 
-    labelLogoHospital=Label(frameEncabezado, image=imagenLogoHospital).grid(pady=5, padx=50, row=0, column=2)
+    labelLogoHospital=Label(frameEncabezado, image=imagenLogoHospital, background = "white").grid(pady=5, padx=50, row=0, column=2)
 
     btnReportes=Button(frameBotones, text="Reportes",command= self.onClick )
     btnReportes.pack(fill="both", expand=1)
