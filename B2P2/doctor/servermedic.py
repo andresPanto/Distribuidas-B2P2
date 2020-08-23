@@ -14,7 +14,7 @@ textPulsaciones = None
 
 
 class SalaDoctores():
-    HOST = 'localhost'
+    HOST = '192.168.43.64'
     PORT = 2525
     ADDRESS = (HOST, PORT)
     BUFFSIZE = 1024
@@ -153,6 +153,7 @@ class Medico:
       
     else:
         messagebox.showerror("Rostro no encontrado", "No se ha encontrado un rostro")
+
 
 
 

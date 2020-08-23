@@ -13,7 +13,7 @@ textPulsaciones = None
 
 
 class SalaDoctores():
-    HOST = 'localhost'
+    HOST = '192.168.43.64'
     PORT = 2530
     ADDRESS = (HOST, PORT)
     BUFFSIZE = 1024
